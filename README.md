@@ -63,7 +63,8 @@ config :plug_statsd,
     # custom_text.4xx.more_custom_text
     {:timer, ["custom_text", :generalized_http_status, "more_custom_text"]},
     # request.GET.api-v1-users-jeff=weiss
-    {:counter, ["request", &Plug.Statsd.http_method/2, :uri], sample_rate: 0.1},
+    #{:counter, ["request", &Plug.Statsd.http_method/2, :uri], sample_rate: 0.1},
+    {:counter, ["request", {Plug.Statsd, :http_method}, :uri], sample_rate: 0.1},
   ],
   slash_replacement: "-", # defaults to "."
   dot_replacement: "="    # defaults to "_"

@@ -67,6 +67,11 @@ defmodule Plug.Statsd do
     |> Enum.join(".")
   end
 
+  # FIX BUG for exrm release: change &Plug.Statsd.http_method/2 -> {Plug.Statsd, :http_method}
+  # Cannot add file sys.config to tar file - [{error,{30,erl_parse,["syntax error before: ",["Fun"]]}}]
+  defp element_to_value({module, function} = element, conn, opts) do
+    apply(module, function, [conn, opts])
+  end
   defp element_to_value(element, conn, opts) when is_atom(element) do
     apply(__MODULE__, element, [conn, opts])
   end
